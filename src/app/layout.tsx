@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
+import React from 'react';
 
 export const metadata: Metadata = {
-  title: "Tic Tac Toe",
-  description: "NextJS Tic Tac Toe Game",
+  title: 'Tic Tac Toe',
+  description: 'NextJS Tic Tac Toe Game',
 };
 
 export default function RootLayout({
@@ -13,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

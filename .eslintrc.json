@@ -1,3 +1,20 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "parser": "@typescript-eslint/parser",
+  "extends": ["next/core-web-vitals", "next/typescript", "airbnb", "prettier"],
+  "plugins": ["prettier", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
