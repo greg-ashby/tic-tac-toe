@@ -29,6 +29,7 @@ describe('TicTacToeGame', () => {
   it('should set first player as first parameter', () => {
     game = new TicTacToeGame(playerO, playerX);
     expect(game.currentTurn).toBe(playerO);
+    expect(game.isOver).toBe(false);
   });
 
   it('should detect winner by row', () => {
@@ -40,6 +41,7 @@ describe('TicTacToeGame', () => {
     game.makeMove(row + 2, 1);
     game.makeMove(row, 2);
     expect(game.winner).toBe(playerX);
+    expect(game.isOver).toBe(true);
   });
 
   it('should detect winner by column', () => {
@@ -51,6 +53,7 @@ describe('TicTacToeGame', () => {
     game.makeMove(1, column + 1);
     game.makeMove(2, column);
     expect(game.winner).toBe(playerX);
+    expect(game.isOver).toBe(true);
   });
 
   it('should detect winner by left-down diagonal', () => {
@@ -62,6 +65,7 @@ describe('TicTacToeGame', () => {
     game.makeMove(1, 0);
     game.makeMove(2, 2);
     expect(game.winner).toBe(playerO);
+    expect(game.isOver).toBe(true);
   });
 
   it('should detect winner by left-up diagonal', () => {
@@ -73,6 +77,7 @@ describe('TicTacToeGame', () => {
     game.makeMove(1, 0);
     game.makeMove(0, 2);
     expect(game.winner).toBe(playerO);
+    expect(game.isOver).toBe(true);
   });
 
   it('should not allow out of bounds moves', () => {
@@ -81,7 +86,7 @@ describe('TicTacToeGame', () => {
   });
 
   it('should detect a draw after 9 turns without winner', () => {
-    expect(game.isDraw()).toBe(false);
+    expect(game.isDraw).toBe(false);
     game.makeMove(0, 0);
     game.makeMove(1, 1);
     game.makeMove(0, 1);
@@ -90,8 +95,9 @@ describe('TicTacToeGame', () => {
     game.makeMove(1, 0);
     game.makeMove(1, 2);
     game.makeMove(2, 1);
-    expect(game.isDraw()).toBe(false);
+    expect(game.isDraw).toBe(false);
     game.makeMove(2, 2);
-    expect(game.isDraw()).toBe(true);
+    expect(game.isDraw).toBe(true);
+    expect(game.isOver).toBe(true);
   });
 });

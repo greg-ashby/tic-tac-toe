@@ -29,6 +29,10 @@ export default class TicTacToeGame {
     return this.#winner;
   }
 
+  getSquare(row: number, column: number): Square {
+    return this.#board[row][column];
+  }
+
   constructor(firstPlayer: Player, secondPlayer: Player) {
     this.#firstPlayer = firstPlayer;
     this.#secondPlayer = secondPlayer;
@@ -37,17 +41,20 @@ export default class TicTacToeGame {
     this.#board = TicTacToeGame.#getEmptyBoard();
   }
 
-  isDraw(): boolean {
-    if (this.#turnsTaken === 9 && !this.winner) return true;
-    return false;
+  get isDraw(): boolean {
+    return this.#turnsTaken === 9 && !this.winner;
+  }
+
+  get isOver(): boolean {
+    return !!this.winner || this.isDraw;
   }
 
   makeMove(row: number, column: number) {
-    if (this.#board[row][column] !== null) {
+    if (this.#board[row][column].value !== null) {
       throw new Error('Square already taken');
     }
 
-    this.#board[row][column] = this.currentTurn;
+    (this.#board[row][column] as Square).value = this.currentTurn;
     this.#turnsTaken += 1;
     this.#checkAndSetWinner();
     if (this.winner) return;
@@ -65,42 +72,38 @@ export default class TicTacToeGame {
   #checkAndSetWinner() {
     for (let row = 0; row < 3; row++) {
       if (
-        this.#board[row][0] !== null &&
-        this.#board[row][0] === this.#board[row][1] &&
-        this.#board[row][0] === this.#board[row][2]
+        this.#board[row][0].value !== null &&
+        this.#board[row][0].value === this.#board[row][1].value &&
+        this.#board[row][0].value === this.#board[row][2].value
       ) {
-        // eslint-disable-next-line prefer-destructuring
-        this.#winner = this.#board[row][0];
+        this.#winner = this.#board[row][0].value;
         return;
       }
     }
 
     for (let column = 0; column < 3; column++) {
       if (
-        this.#board[0][column] !== null &&
-        this.#board[0][column] === this.#board[1][column] &&
-        this.#board[0][column] === this.#board[2][column]
+        this.#board[0][column].value !== null &&
+        this.#board[0][column].value === this.#board[1][column].value &&
+        this.#board[0][column].value === this.#board[2][column].value
       ) {
-        // eslint-disable-next-line prefer-destructuring
-        this.#winner = this.#board[0][column];
+        this.#winner = this.#board[0][column].value;
         return;
       }
     }
 
     if (
-      this.#board[0][0] !== null &&
-      this.#board[0][0] === this.#board[1][1] &&
-      this.#board[0][0] === this.#board[2][2]
+      this.#board[0][0].value !== null &&
+      this.#board[0][0].value === this.#board[1][1].value &&
+      this.#board[0][0].value === this.#board[2][2].value
     ) {
-      // eslint-disable-next-line prefer-destructuring
-      this.#winner = this.#board[0][0];
+      this.#winner = this.#board[0][0].value;
     } else if (
-      this.#board[0][2] !== null &&
-      this.#board[0][2] === this.#board[1][1] &&
-      this.#board[0][2] === this.#board[2][0]
+      this.#board[0][2].value !== null &&
+      this.#board[0][2].value === this.#board[1][1].value &&
+      this.#board[0][2].value === this.#board[2][0].value
     ) {
-      // eslint-disable-next-line prefer-destructuring
-      this.#winner = this.#board[0][2];
+      this.#winner = this.#board[0][2].value;
     }
   }
 
@@ -110,9 +113,9 @@ export default class TicTacToeGame {
     [Square, Square, Square],
   ] {
     return [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null],
+      [{ value: null }, { value: null }, { value: null }],
+      [{ value: null }, { value: null }, { value: null }],
+      [{ value: null }, { value: null }, { value: null }],
     ];
   }
 }

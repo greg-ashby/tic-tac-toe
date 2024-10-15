@@ -3,4 +3,6 @@ export type Player = {
   avatar: 'X' | 'O';
 };
 
-export type Square = Player | null;
+export type Square = {
+  value: Player | null;
+};
