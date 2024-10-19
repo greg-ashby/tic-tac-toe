@@ -1,5 +1,5 @@
-import TicTacToeMatchComponent from '@/components/TicTacToeMatchComponent.tsx';
+import Match from '@/components/Match.tsx';
 
 export default function Home() {
-  return <TicTacToeMatchComponent />;
+  return <Match />;
 }
