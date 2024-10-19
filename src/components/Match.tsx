@@ -11,7 +11,6 @@ import { calculateNewMatchScore, getNewMatchScore } from '@/lib/MatchLogic.ts';
 import GameBoard from './GameBoard.tsx';
 import GameState from './GameState.tsx';
 import MatchScore from './MatchScore.tsx';
-import MatchTitle from './MatchTitle.tsx';
 
 function switchPlayer(currentPlayer: Player) {
   return currentPlayer === 'X' ? 'O' : 'X';
@@ -19,7 +18,8 @@ function switchPlayer(currentPlayer: Player) {
 
 export default function Match() {
   const [board, setBoard] = useState(getEmptyBoard());
-  const [currentPlayer, setCurrentPlayer] = useState<Player>('X');
+  const [startingPlayer, setStartingPlayer] = useState<Player>('X');
+  const [currentPlayer, setCurrentPlayer] = useState<Player>(startingPlayer);
   const [score, setScore] = useState(getNewMatchScore());
 
   const handleSquareClick = (squareNumber: number) => {
@@ -42,19 +42,25 @@ export default function Match() {
 
   const handleNewGameClick = () => {
     setBoard(getEmptyBoard());
-    setCurrentPlayer('X');
+    const newStartingPlayer = switchPlayer(startingPlayer);
+    setStartingPlayer(newStartingPlayer);
+    setCurrentPlayer(newStartingPlayer);
   };
 
   return (
-    <>
-      <MatchTitle />
-      <GameState
-        board={board}
-        currentPlayer={currentPlayer}
-        onNewGameClick={handleNewGameClick}
-      />
-      <GameBoard board={board} onSquareClick={handleSquareClick} />
-      <MatchScore score={score} />
-    </>
+    <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-col items-center">
+        <h1 className="text-4xl font-bold mb-4">Tic-Tac-Toe</h1>
+        <GameBoard board={board} onSquareClick={handleSquareClick} />
+        <GameState
+          board={board}
+          currentPlayer={currentPlayer}
+          onNewGameClick={handleNewGameClick}
+        />
+      </div>
+      <div className="flex flex-col justify-center h-full">
+        <MatchScore score={score} />
+      </div>
+    </div>
   );
 }
