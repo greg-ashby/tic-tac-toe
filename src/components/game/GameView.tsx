@@ -1,6 +1,11 @@
 import { Player } from '@/lib/PlayerLogic.ts';
 import { useImmer } from 'use-immer';
-import { getNewGame, makeMove, Outcome } from '@/lib/GameLogic.ts';
+import {
+  GameStatuses,
+  getNewGame,
+  makeMove,
+  Outcome,
+} from '@/lib/GameLogic.ts';
 import GameBoard from './GameBoard.tsx';
 import GameStatus from './GameStatus.tsx';
 
@@ -24,8 +29,8 @@ export default function GameView({
   const handleSquareClick = (squareNumber: number) => {
     updateGame((draft) => {
       makeMove(draft, squareNumber);
-      if (draft.outcome.isOver) {
-        onGameOver(draft.outcome);
+      if (draft.status !== GameStatuses.IN_PROGRESS) {
+        onGameOver(draft.status);
       }
     });
   };

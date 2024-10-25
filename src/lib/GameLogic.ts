@@ -1,18 +1,18 @@
 import { NullablePlayer, Player } from './PlayerLogic.ts';
 
 type Board = NullablePlayer[];
-
-export type Outcome = {
-  winner: NullablePlayer;
-  isTie: boolean;
-  isOver: boolean;
-};
+/* eslint-disable no-unused-vars */
+export enum GameStatuses {
+  IN_PROGRESS = 'In-Progress',
+  TIE = 'Tie',
+}
+export type Outcome = GameStatuses | Player;
 
 export type Game = {
   board: NullablePlayer[];
   currentPlayer: Player;
   nextPlayer: Player;
-  outcome: Outcome;
+  status: GameStatuses | Player; // if Player, it's the winner
 };
 
 export function getNewGame(startingPlayer: Player, opponent: Player): Game {
@@ -20,7 +20,7 @@ export function getNewGame(startingPlayer: Player, opponent: Player): Game {
     board: Array(9).fill(null),
     currentPlayer: startingPlayer,
     nextPlayer: opponent,
-    outcome: { winner: null, isTie: false, isOver: false },
+    status: GameStatuses.IN_PROGRESS,
   };
 }
 
@@ -52,9 +52,13 @@ function isBoardFull(board: Board): boolean {
 
 function calculateOutcome({ board }: Game): Outcome {
   const winner = getWinner(board);
-  const isTie = !winner && isBoardFull(board);
-  const isOver = !!winner || isTie;
-  return { winner, isTie, isOver };
+  if (winner) {
+    return winner;
+  }
+  if (isBoardFull(board)) {
+    return GameStatuses.TIE;
+  }
+  return GameStatuses.IN_PROGRESS;
 }
 
 export function makeMove(draft: Game, squareNumber: number) {
@@ -68,5 +72,5 @@ export function makeMove(draft: Game, squareNumber: number) {
     draft.currentPlayer,
   ];
 
-  draft.outcome = calculateOutcome(draft);
+  draft.status = calculateOutcome(draft);
 }

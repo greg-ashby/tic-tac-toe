@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 // in this case, we can use the index as the key because the board is always a 3x3 array and the squares never change
-import { Game } from '@/lib/GameLogic.ts';
+import { Game, GameStatuses } from '@/lib/GameLogic.ts';
 import GameSquare from './GameSquare.tsx';
 
 type Props = {
@@ -15,7 +15,7 @@ export default function GameBoard({ game, onSquareClick }: Props) {
         <GameSquare
           key={index}
           value={square}
-          disabled={game.outcome.isOver}
+          disabled={game.status !== GameStatuses.IN_PROGRESS}
           onClick={() => onSquareClick(index)}
         />
       ))}

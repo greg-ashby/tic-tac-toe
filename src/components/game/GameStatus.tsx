@@ -1,4 +1,4 @@
-import { Game } from '@/lib/GameLogic.ts';
+import { Game, GameStatuses } from '@/lib/GameLogic.ts';
 import NewGameButton from './NewGameButton.tsx';
 
 type Props = {
@@ -9,10 +9,10 @@ type Props = {
 export default function GameStatus({ game, onNewGameClick }: Props) {
   let text = `${game.currentPlayer}'s Turn`;
   let showButton = false;
-  const { winner, isOver } = game.outcome;
-  if (isOver) {
+  if (game.status !== GameStatuses.IN_PROGRESS) {
     showButton = true;
-    text = winner ? `${winner} wins!` : 'Tie Game';
+    text =
+      game.status !== GameStatuses.TIE ? `${game.status} wins!` : 'Tie Game';
   }
 
   return (
