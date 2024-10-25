@@ -1,17 +1,9 @@
 export type Player = string;
 export type NullablePlayer = Player | null;
 
-export function switchPlayers(
+export function getOpponentOf(
   thisPlayer: Player,
-  thatPlayer: Player
-): Player[] {
-  return [thatPlayer, thisPlayer];
-}
-
-export function getOpponent(
-  thisPlayer: Player,
-  playerA: Player,
-  playerB: Player
+  playerPair: [Player, Player]
 ): Player {
-  return thisPlayer === playerA ? playerB : playerA;
+  return thisPlayer === playerPair[0] ? playerPair[1] : playerPair[0];
 }

@@ -3,7 +3,7 @@
 import { getNewGame, makeMove, Outcome } from '@/lib/GameLogic.ts';
 import { useImmer } from 'use-immer';
 import { getNewMatchScore } from '@/lib/MatchLogic.ts';
-import { getOpponent, Player } from '@/lib/PlayerLogic.ts';
+import { getOpponentOf, Player } from '@/lib/PlayerLogic.ts';
 import GameBoard from './GameBoard.tsx';
 import MatchScore from './MatchScore.tsx';
 import GameStatus from './GameStatus.tsx';
@@ -16,7 +16,7 @@ type Props = {
 export default function Match({ playerOne, playerTwo }: Props) {
   const [game, updateGame] = useImmer(getNewGame(playerOne, playerTwo));
   const [score, updateScore] = useImmer(getNewMatchScore());
-  const [startingPlayer, updateStartingPlayer] = useImmer(playerOne);
+  const [currentStartingPlayer, updateStartingPlayer] = useImmer(playerOne);
 
   const handleGameOver = (outcome: Outcome) => {
     if (outcome.isTie) {
@@ -44,8 +44,11 @@ export default function Match({ playerOne, playerTwo }: Props) {
   };
 
   const handleNewGameClick = () => {
-    const firstPlayer = getOpponent(startingPlayer, playerOne, playerTwo);
-    const secondPlayer = getOpponent(firstPlayer, playerOne, playerTwo);
+    const firstPlayer = getOpponentOf(currentStartingPlayer, [
+      playerOne,
+      playerTwo,
+    ]);
+    const secondPlayer = getOpponentOf(firstPlayer, [playerOne, playerTwo]);
     updateStartingPlayer(firstPlayer);
     updateGame(getNewGame(firstPlayer, secondPlayer));
   };
