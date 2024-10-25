@@ -1,12 +1,11 @@
 'use client';
 
-import { getNewGame, makeMove, Outcome } from '@/lib/GameLogic.ts';
 import { useImmer } from 'use-immer';
 import { getNewMatchScore } from '@/lib/MatchLogic.ts';
 import { getOpponentOf, Player } from '@/lib/PlayerLogic.ts';
-import GameBoard from './GameBoard.tsx';
+import { Outcome } from '@/lib/GameLogic.ts';
 import MatchScore from './MatchScore.tsx';
-import GameStatus from './GameStatus.tsx';
+import GameView from '../game/GameView.tsx';
 
 type Props = {
   playerOne: Player;
@@ -14,9 +13,12 @@ type Props = {
 };
 
 export default function Match({ playerOne, playerTwo }: Props) {
-  const [game, updateGame] = useImmer(getNewGame(playerOne, playerTwo));
   const [score, updateScore] = useImmer(getNewMatchScore());
   const [currentStartingPlayer, updateStartingPlayer] = useImmer(playerOne);
+  const currentSecondPlayer = getOpponentOf(currentStartingPlayer, [
+    playerOne,
+    playerTwo,
+  ]);
 
   const handleGameOver = (outcome: Outcome) => {
     if (outcome.isTie) {
@@ -32,33 +34,20 @@ export default function Match({ playerOne, playerTwo }: Props) {
         }
       });
     }
-  };
 
-  const handleSquareClick = (squareNumber: number) => {
-    updateGame((draft) => {
-      makeMove(draft, squareNumber);
-      if (draft.outcome.isOver) {
-        handleGameOver(draft.outcome);
-      }
-    });
-  };
-
-  const handleNewGameClick = () => {
-    const firstPlayer = getOpponentOf(currentStartingPlayer, [
-      playerOne,
-      playerTwo,
-    ]);
-    const secondPlayer = getOpponentOf(firstPlayer, [playerOne, playerTwo]);
-    updateStartingPlayer(firstPlayer);
-    updateGame(getNewGame(firstPlayer, secondPlayer));
+    updateStartingPlayer(
+      getOpponentOf(currentStartingPlayer, [playerOne, playerTwo])
+    );
   };
 
   return (
     <div className="flex flex-wrap justify-center gap-4">
       <div className="flex flex-col items-center">
-        <h1 className="text-4xl font-bold mt-4 mb-4">Tic-Tac-Toe</h1>
-        <GameBoard game={game} onSquareClick={handleSquareClick} />
-        <GameStatus game={game} onNewGameClick={handleNewGameClick} />
+        <GameView
+          firstPlayer={currentStartingPlayer}
+          secondPlayer={currentSecondPlayer}
+          onGameOver={handleGameOver}
+        />
       </div>
       <div className="flex flex-col justify-center h-full">
         <MatchScore playerOne={playerOne} playerTwo={playerTwo} score={score} />
