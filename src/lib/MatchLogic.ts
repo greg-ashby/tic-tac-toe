@@ -1,18 +1,25 @@
-import { Square } from './GameLogic.ts';
+import { Player } from './GameLogic.ts';
 
 export type Score = {
-  xWins: number;
-  oWins: number;
+  playerOneWins: number;
+  playerTwoWins: number;
   ties: number;
 };
 
+export function switchPlayer(
+  currentPlayer: Player,
+  playerOne: Player,
+  playerTwo: Player
+): Player {
+  return currentPlayer === playerOne ? playerTwo : playerOne;
+}
 export function getNewMatchScore(): Score {
-  return { xWins: 0, oWins: 0, ties: 0 };
+  return { playerOneWins: 0, playerTwoWins: 0, ties: 0 };
 }
 
-export function calculateNewMatchScore(
+export function calculateMatchScore(
   currentScore: Score,
-  winner: Square,
+  winner: number | null,
   isTie: boolean,
   isOver: boolean
 ): Score {
@@ -25,7 +32,7 @@ export function calculateNewMatchScore(
   if (winner === null) {
     throw new Error('No winner declared');
   }
-  return winner === 'X'
-    ? { ...currentScore, xWins: currentScore.xWins + 1 }
-    : { ...currentScore, oWins: currentScore.oWins + 1 };
+  return winner === 1
+    ? { ...currentScore, playerOneWins: currentScore.playerOneWins + 1 }
+    : { ...currentScore, playerTwoWins: currentScore.playerTwoWins + 1 };
 }

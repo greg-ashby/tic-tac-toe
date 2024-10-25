@@ -1,8 +1,9 @@
-export type Player = 'X' | 'O';
-export type Square = Player | null;
-export type Board = Square[];
+export type Player = string;
+export type NullablePlayer = Player | null;
+export type Board = NullablePlayer[];
+
 export type Outcome = {
-  winner: Square;
+  winner: NullablePlayer;
   isTie: boolean;
   isOver: boolean;
 };
@@ -11,7 +12,7 @@ export function getEmptyBoard(): Board {
   return Array(9).fill(null);
 }
 
-export function getWinner(board: Board): Square {
+export function getWinner(board: Board): NullablePlayer {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],

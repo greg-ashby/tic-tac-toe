@@ -22,7 +22,7 @@ export default function GameState({
 
   return (
     <>
-      <div className="text-2xl font-bold">{text}</div>
+      <div className="text-2xl font-bold pt-2">{text}</div>
       {showButton && <NewGameButton onClick={onNewGameClick} />}
     </>
   );
