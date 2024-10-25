@@ -2,7 +2,7 @@
 
 import Match from '@/components/Match.tsx';
 import PlayerSetup from '@/components/PlayerSetup.tsx';
-import { Player, NullablePlayer } from '@/lib/GameLogic.ts';
+import { Player, NullablePlayer } from '@/lib/PlayerLogic.ts';
 import { useState } from 'react';
 
 export default function Main() {

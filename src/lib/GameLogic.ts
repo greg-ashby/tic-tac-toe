@@ -1,6 +1,6 @@
-export type Player = string;
-export type NullablePlayer = Player | null;
-export type Board = NullablePlayer[];
+import { NullablePlayer, Player } from './PlayerLogic.ts';
+
+type Board = NullablePlayer[];
 
 export type Outcome = {
   winner: NullablePlayer;
@@ -8,11 +8,23 @@ export type Outcome = {
   isOver: boolean;
 };
 
-export function getEmptyBoard(): Board {
-  return Array(9).fill(null);
+export type Game = {
+  board: NullablePlayer[];
+  currentPlayer: Player;
+  nextPlayer: Player;
+  outcome: Outcome;
+};
+
+export function getNewGame(startingPlayer: Player, opponent: Player): Game {
+  return {
+    board: Array(9).fill(null),
+    currentPlayer: startingPlayer,
+    nextPlayer: opponent,
+    outcome: { winner: null, isTie: false, isOver: false },
+  };
 }
 
-export function getWinner(board: Board): NullablePlayer {
+function getWinner(board: Board): NullablePlayer {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -34,26 +46,27 @@ export function getWinner(board: Board): NullablePlayer {
   return null;
 }
 
-export function isBoardFull(board: Board): boolean {
+function isBoardFull(board: Board): boolean {
   return board.every((square) => square !== null);
 }
 
-export function calculateOutcome(board: Board): Outcome {
+function calculateOutcome({ board }: Game): Outcome {
   const winner = getWinner(board);
   const isTie = !winner && isBoardFull(board);
   const isOver = !!winner || isTie;
   return { winner, isTie, isOver };
 }
 
-export function makeMove(
-  board: Board,
-  squareNumber: number,
-  currentPlayer: Player
-): Board {
-  if (board[squareNumber] !== null) {
+export function makeMove(draft: Game, squareNumber: number) {
+  if (draft.board[squareNumber] !== null) {
     throw new Error('Square already taken');
   }
-  const newBoard = [...board];
-  newBoard[squareNumber] = currentPlayer;
-  return newBoard;
+  draft.board[squareNumber] = draft.currentPlayer;
+
+  [draft.currentPlayer, draft.nextPlayer] = [
+    draft.nextPlayer,
+    draft.currentPlayer,
+  ];
+
+  draft.outcome = calculateOutcome(draft);
 }

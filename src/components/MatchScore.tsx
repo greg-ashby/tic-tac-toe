@@ -1,4 +1,4 @@
-import { Player } from '@/lib/GameLogic.ts';
+import { Player } from '@/lib/PlayerLogic.ts';
 import { Score } from '@/lib/MatchLogic.ts';
 
 type Props = {

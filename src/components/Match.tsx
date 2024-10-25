@@ -1,20 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  calculateOutcome,
-  getEmptyBoard,
-  makeMove,
-  Player,
-} from '@/lib/GameLogic.ts';
-import {
-  calculateMatchScore,
-  getNewMatchScore,
-  switchPlayer,
-} from '@/lib/MatchLogic.ts';
+import { getNewGame, makeMove, Outcome } from '@/lib/GameLogic.ts';
+import { useImmer } from 'use-immer';
+import { getNewMatchScore } from '@/lib/MatchLogic.ts';
+import { getOpponent, Player } from '@/lib/PlayerLogic.ts';
 import GameBoard from './GameBoard.tsx';
-import GameState from './GameState.tsx';
 import MatchScore from './MatchScore.tsx';
+import GameStatus from './GameStatus.tsx';
 
 type Props = {
   playerOne: Player;
@@ -22,55 +14,48 @@ type Props = {
 };
 
 export default function Match({ playerOne, playerTwo }: Props) {
-  const [board, setBoard] = useState(getEmptyBoard());
-  const [startingPlayer, setStartingPlayer] = useState<Player>(playerOne);
-  const [currentPlayer, setCurrentPlayer] = useState<Player>(startingPlayer);
-  const [score, setScore] = useState(getNewMatchScore());
+  const [game, updateGame] = useImmer(getNewGame(playerOne, playerTwo));
+  const [score, updateScore] = useImmer(getNewMatchScore());
+  const [startingPlayer, updateStartingPlayer] = useImmer(playerOne);
 
-  const handleSquareClick = (squareNumber: number) => {
-    const newBoard = makeMove(board, squareNumber, currentPlayer);
-    setBoard(newBoard);
-    const { winner, isTie, isOver } = calculateOutcome(newBoard);
-    if (isOver) {
-      const winningPlayerNumber = isTie || winner === playerOne ? 1 : 2;
-      const newMatchScore = calculateMatchScore(
-        score,
-        winningPlayerNumber,
-        isTie,
-        isOver
-      );
-      setScore(newMatchScore);
+  const handleGameOver = (outcome: Outcome) => {
+    if (outcome.isTie) {
+      updateScore((draft) => {
+        draft.ties = 1;
+      });
     } else {
-      const newCurrentPlayer = switchPlayer(
-        currentPlayer,
-        playerOne,
-        playerTwo
-      );
-      setCurrentPlayer(newCurrentPlayer);
+      updateScore((draft) => {
+        if (outcome.winner === playerOne) {
+          draft.playerOneWins = 1;
+        } else {
+          draft.playerTwoWins = 1;
+        }
+      });
     }
   };
 
+  const handleSquareClick = (squareNumber: number) => {
+    updateGame((draft) => {
+      makeMove(draft, squareNumber);
+      if (draft.outcome.isOver) {
+        handleGameOver(draft.outcome);
+      }
+    });
+  };
+
   const handleNewGameClick = () => {
-    setBoard(getEmptyBoard());
-    const newStartingPlayer = switchPlayer(
-      startingPlayer,
-      playerOne,
-      playerTwo
-    );
-    setStartingPlayer(newStartingPlayer);
-    setCurrentPlayer(newStartingPlayer);
+    const firstPlayer = getOpponent(startingPlayer, playerOne, playerTwo);
+    const secondPlayer = getOpponent(firstPlayer, playerOne, playerTwo);
+    updateStartingPlayer(firstPlayer);
+    updateGame(getNewGame(firstPlayer, secondPlayer));
   };
 
   return (
     <div className="flex flex-wrap justify-center gap-4">
       <div className="flex flex-col items-center">
         <h1 className="text-4xl font-bold mt-4 mb-4">Tic-Tac-Toe</h1>
-        <GameBoard board={board} onSquareClick={handleSquareClick} />
-        <GameState
-          board={board}
-          currentPlayer={currentPlayer}
-          onNewGameClick={handleNewGameClick}
-        />
+        <GameBoard game={game} onSquareClick={handleSquareClick} />
+        <GameStatus game={game} onNewGameClick={handleNewGameClick} />
       </div>
       <div className="flex flex-col justify-center h-full">
         <MatchScore playerOne={playerOne} playerTwo={playerTwo} score={score} />

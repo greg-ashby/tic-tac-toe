@@ -29,6 +29,13 @@
         "exceptAfterSingleLine": true
       }
     ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["draft"]
+      }
+    ],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
   },
   "settings": {

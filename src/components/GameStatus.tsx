@@ -1,20 +1,15 @@
-import { Board, calculateOutcome } from '@/lib/GameLogic.ts';
+import { Game } from '@/lib/GameLogic.ts';
 import NewGameButton from './NewGameButton.tsx';
 
 type Props = {
-  board: Board;
-  currentPlayer: string;
+  game: Game;
   onNewGameClick: () => void;
 };
 
-export default function GameState({
-  board,
-  currentPlayer,
-  onNewGameClick,
-}: Props) {
-  let text = `${currentPlayer}'s Turn`;
+export default function GameStatus({ game, onNewGameClick }: Props) {
+  let text = `${game.currentPlayer}'s Turn`;
   let showButton = false;
-  const { winner, isOver } = calculateOutcome(board);
+  const { winner, isOver } = game.outcome;
   if (isOver) {
     showButton = true;
     text = winner ? `${winner} wins!` : 'Tie Game';

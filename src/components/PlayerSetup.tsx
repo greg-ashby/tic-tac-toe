@@ -1,4 +1,4 @@
-import { Player } from '@/lib/GameLogic.ts';
+import { Player } from '@/lib/PlayerLogic.ts';
 import { ChangeEvent, useState } from 'react';
 
 type Props = {
