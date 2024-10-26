@@ -1,4 +1,4 @@
-import { NullablePlayer, Player } from './PlayerLogic.ts';
+import { NullablePlayer, Player } from '@/code/player/PlayerLogic.ts';
 
 type Board = NullablePlayer[];
 /* eslint-disable no-unused-vars */

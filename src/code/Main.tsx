@@ -1,8 +1,8 @@
 'use client';
 
-import Match from '@/components/match/Match.tsx';
-import PlayerSetup from '@/components/PlayerSetup.tsx';
-import { Player, NullablePlayer } from '@/lib/PlayerLogic.ts';
+import Match from '@/code/match/Match.tsx';
+import PlayerSetup from '@/code/player/PlayerSetup.tsx';
+import { Player, NullablePlayer } from '@/code/player/PlayerLogic.ts';
 import { useState } from 'react';
 
 export default function Main() {

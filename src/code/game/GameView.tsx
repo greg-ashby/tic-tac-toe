@@ -1,4 +1,4 @@
-import { Player } from '@/lib/PlayerLogic.ts';
+import { Player } from '@/code/player/PlayerLogic.ts';
 import { useImmerReducer } from 'use-immer';
 import {
   Game,
@@ -6,7 +6,7 @@ import {
   getNewGame,
   makeMove,
   GameStatusOrWinner,
-} from '@/lib/GameLogic.ts';
+} from '@/code/game/GameLogic.ts';
 import GameBoard from './GameBoard.tsx';
 import GameStatus from './GameStatus.tsx';
 

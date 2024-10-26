@@ -1,5 +1,5 @@
-import { Player } from '@/lib/PlayerLogic.ts';
-import { Score } from '@/lib/MatchLogic.ts';
+import { Player } from '@/code/player/PlayerLogic.ts';
+import { Score } from './MatchLogic.ts';
 
 type Props = {
   playerOne: Player;

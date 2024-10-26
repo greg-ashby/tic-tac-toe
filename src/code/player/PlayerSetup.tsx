@@ -1,5 +1,5 @@
-import { Player } from '@/lib/PlayerLogic.ts';
 import { ChangeEvent, useState } from 'react';
+import { Player } from './PlayerLogic.ts';
 
 type Props = {
   // eslint-disable-next-line no-unused-vars

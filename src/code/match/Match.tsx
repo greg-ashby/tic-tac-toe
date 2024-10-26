@@ -1,11 +1,11 @@
 'use client';
 
 import { useImmer } from 'use-immer';
-import { getNewMatchScore } from '@/lib/MatchLogic.ts';
-import { getOpponentOf, Player } from '@/lib/PlayerLogic.ts';
-import { GameStatuses, GameStatusOrWinner } from '@/lib/GameLogic.ts';
+import { getOpponentOf, Player } from '@/code/player/PlayerLogic.ts';
+import { GameStatuses, GameStatusOrWinner } from '@/code/game/GameLogic.ts';
+import GameView from '@/code/game/GameView.tsx';
 import MatchScore from './MatchScore.tsx';
-import GameView from '../game/GameView.tsx';
+import { getNewMatchScore } from './MatchLogic.ts';
 
 type Props = {
   playerOne: Player;
