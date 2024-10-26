@@ -5,7 +5,6 @@ import GameSquare from './GameSquare.tsx';
 
 type Props = {
   game: Game;
-  // eslint-disable-next-line no-unused-vars
   onSquareClick: (squareNumber: number) => void;
 };
 export default function GameBoard({ game, onSquareClick }: Props) {

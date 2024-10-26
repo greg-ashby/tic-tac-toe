@@ -1,7 +1,6 @@
 import { NullablePlayer, Player } from '@/code/player/PlayerLogic.ts';
 
 type Board = NullablePlayer[];
-/* eslint-disable no-unused-vars */
 export enum GameStatuses {
   IN_PROGRESS = 'In-Progress',
   TIE = 'Tie',

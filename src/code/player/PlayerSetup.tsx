@@ -2,7 +2,6 @@ import { ChangeEvent, useState } from 'react';
 import { Player } from './PlayerLogic.ts';
 
 type Props = {
-  // eslint-disable-next-line no-unused-vars
   onPlayerSetupSubmit: (playerOneValue: Player, playerTwoValue: Player) => void;
 };
 export default function PlayerSetup({

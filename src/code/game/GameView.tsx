@@ -13,11 +13,9 @@ import GameStatus from './GameStatus.tsx';
 type Props = {
   firstPlayer: Player;
   secondPlayer: Player;
-  // eslint-disable-next-line no-unused-vars
   onGameOver: (outcome: GameStatusOrWinner) => void;
 };
 
-/* eslint-disable no-unused-vars */
 enum GameActionNames {
   SQUARE_CLICKED = 'squareClicked',
   START_NEW_GAME = 'startNewGame',
@@ -27,7 +25,6 @@ type GameActions =
   | {
       type: GameActionNames.SQUARE_CLICKED;
       squareNumber: number;
-      // eslint-disable-next-line no-unused-vars
       onGameOver: (outcome: GameStatusOrWinner) => void;
     }
   | {
