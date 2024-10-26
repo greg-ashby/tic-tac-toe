@@ -9,10 +9,12 @@ type Props = {
 export default function GameStatus({ game, onNewGameClick }: Props) {
   let text = `${game.currentPlayer}'s Turn`;
   let showButton = false;
-  if (game.status !== GameStatuses.IN_PROGRESS) {
+  if (game.statusOrWinner !== GameStatuses.IN_PROGRESS) {
     showButton = true;
     text =
-      game.status !== GameStatuses.TIE ? `${game.status} wins!` : 'Tie Game';
+      game.statusOrWinner !== GameStatuses.TIE
+        ? `${game.statusOrWinner} wins!`
+        : 'Tie Game';
   }
 
   return (

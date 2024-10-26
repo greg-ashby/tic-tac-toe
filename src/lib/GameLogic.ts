@@ -6,13 +6,13 @@ export enum GameStatuses {
   IN_PROGRESS = 'In-Progress',
   TIE = 'Tie',
 }
-export type Outcome = GameStatuses | Player;
+export type GameStatusOrWinner = GameStatuses | Player;
 
 export type Game = {
   board: NullablePlayer[];
   currentPlayer: Player;
   nextPlayer: Player;
-  status: GameStatuses | Player; // if Player, it's the winner
+  statusOrWinner: GameStatuses | Player;
 };
 
 export function getNewGame(startingPlayer: Player, opponent: Player): Game {
@@ -20,7 +20,7 @@ export function getNewGame(startingPlayer: Player, opponent: Player): Game {
     board: Array(9).fill(null),
     currentPlayer: startingPlayer,
     nextPlayer: opponent,
-    status: GameStatuses.IN_PROGRESS,
+    statusOrWinner: GameStatuses.IN_PROGRESS,
   };
 }
 
@@ -50,7 +50,7 @@ function isBoardFull(board: Board): boolean {
   return board.every((square) => square !== null);
 }
 
-function calculateOutcome({ board }: Game): Outcome {
+function calculateOutcome({ board }: Game): GameStatusOrWinner {
   const winner = getWinner(board);
   if (winner) {
     return winner;
@@ -72,5 +72,5 @@ export function makeMove(draft: Game, squareNumber: number) {
     draft.currentPlayer,
   ];
 
-  draft.status = calculateOutcome(draft);
+  draft.statusOrWinner = calculateOutcome(draft);
 }

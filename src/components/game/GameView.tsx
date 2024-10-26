@@ -1,10 +1,11 @@
 import { Player } from '@/lib/PlayerLogic.ts';
-import { useImmer } from 'use-immer';
+import { useImmerReducer } from 'use-immer';
 import {
+  Game,
   GameStatuses,
   getNewGame,
   makeMove,
-  Outcome,
+  GameStatusOrWinner,
 } from '@/lib/GameLogic.ts';
 import GameBoard from './GameBoard.tsx';
 import GameStatus from './GameStatus.tsx';
@@ -13,25 +14,70 @@ type Props = {
   firstPlayer: Player;
   secondPlayer: Player;
   // eslint-disable-next-line no-unused-vars
-  onGameOver: (outcome: Outcome) => void;
+  onGameOver: (outcome: GameStatusOrWinner) => void;
 };
+
+/* eslint-disable no-unused-vars */
+enum GameActionNames {
+  SQUARE_CLICKED = 'squareClicked',
+  START_NEW_GAME = 'startNewGame',
+}
+
+type GameActions =
+  | {
+      type: GameActionNames.SQUARE_CLICKED;
+      squareNumber: number;
+      // eslint-disable-next-line no-unused-vars
+      onGameOver: (outcome: GameStatusOrWinner) => void;
+    }
+  | {
+      type: 'startNewGame';
+      firstPlayer: Player;
+      secondPlayer: Player;
+    };
+
+function gameReducer(draft: Game, action: GameActions) {
+  switch (action.type) {
+    case GameActionNames.SQUARE_CLICKED: {
+      makeMove(draft, action.squareNumber);
+      if (draft.statusOrWinner !== GameStatuses.IN_PROGRESS) {
+        action.onGameOver(draft.statusOrWinner);
+      }
+      break;
+    }
+    case GameActionNames.START_NEW_GAME: {
+      const newGame = getNewGame(action.firstPlayer, action.secondPlayer);
+      Object.assign(draft, newGame);
+      break;
+    }
+    default: {
+      throw Error(`Unknown action: ${action.type}`);
+    }
+  }
+}
 export default function GameView({
   firstPlayer,
   secondPlayer,
   onGameOver,
 }: Props) {
-  const [game, updateGame] = useImmer(getNewGame(firstPlayer, secondPlayer));
+  const [game, dispatch] = useImmerReducer(
+    gameReducer,
+    getNewGame(firstPlayer, secondPlayer)
+  );
 
   const handleNewGameClick = () => {
-    updateGame(getNewGame(firstPlayer, secondPlayer));
+    dispatch({
+      type: GameActionNames.START_NEW_GAME,
+      firstPlayer,
+      secondPlayer,
+    });
   };
 
   const handleSquareClick = (squareNumber: number) => {
-    updateGame((draft) => {
-      makeMove(draft, squareNumber);
-      if (draft.status !== GameStatuses.IN_PROGRESS) {
-        onGameOver(draft.status);
-      }
+    dispatch({
+      type: GameActionNames.SQUARE_CLICKED,
+      squareNumber,
+      onGameOver,
     });
   };
 

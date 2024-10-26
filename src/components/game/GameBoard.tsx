@@ -15,7 +15,7 @@ export default function GameBoard({ game, onSquareClick }: Props) {
         <GameSquare
           key={index}
           value={square}
-          disabled={game.status !== GameStatuses.IN_PROGRESS}
+          disabled={game.statusOrWinner !== GameStatuses.IN_PROGRESS}
           onClick={() => onSquareClick(index)}
         />
       ))}

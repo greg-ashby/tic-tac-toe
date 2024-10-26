@@ -3,7 +3,7 @@
 import { useImmer } from 'use-immer';
 import { getNewMatchScore } from '@/lib/MatchLogic.ts';
 import { getOpponentOf, Player } from '@/lib/PlayerLogic.ts';
-import { GameStatuses, Outcome } from '@/lib/GameLogic.ts';
+import { GameStatuses, GameStatusOrWinner } from '@/lib/GameLogic.ts';
 import MatchScore from './MatchScore.tsx';
 import GameView from '../game/GameView.tsx';
 
@@ -20,14 +20,14 @@ export default function Match({ playerOne, playerTwo }: Props) {
     playerTwo,
   ]);
 
-  const handleGameOver = (outcome: Outcome) => {
-    if (outcome === GameStatuses.TIE) {
+  const handleGameOver = (statusOrWinner: GameStatusOrWinner) => {
+    if (statusOrWinner === GameStatuses.TIE) {
       updateScore((draft) => {
         draft.ties = 1;
       });
     } else {
       updateScore((draft) => {
-        if (outcome === playerOne) {
+        if (statusOrWinner === playerOne) {
           draft.playerOneWins = 1;
         } else {
           draft.playerTwoWins = 1;
