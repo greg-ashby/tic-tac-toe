@@ -6,18 +6,18 @@ import {
   GameStatusOrWinner,
 } from '@/components/game/GameLogic.ts';
 import GameView from '@/components/game/GameView.tsx';
-import { getNewScore } from '@/components/score/Score.ts';
+import { getNewScoreState } from '@/components/score/ScoreState.ts';
 import ScoreView from '@/components/score/ScoreView.tsx';
 import { getOpponentOf, Player } from '@/components/players/Players.ts';
 import PlayerSetup from '@/components/players/PlayersView.tsx';
 import { useState } from 'react';
-import { getNewMatch, MatchStatus } from './Match.ts';
+import { getNewMatchState, MatchStatus } from './MatchState.ts';
 
 export default function MatchView() {
   const [playerOne, setPlayerOne] = useState('X');
   const [playerTwo, setPlayerTwo] = useState('O');
-  const [match, updateMatch] = useImmer(getNewMatch(playerOne));
-  const [score, updateScore] = useImmer(getNewScore());
+  const [match, updateMatch] = useImmer(getNewMatchState(playerOne));
+  const [score, updateScore] = useImmer(getNewScoreState());
 
   const { currentStartingPlayer } = match;
   const currentSecondPlayer = getOpponentOf(currentStartingPlayer, [

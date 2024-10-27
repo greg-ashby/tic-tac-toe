@@ -1,10 +1,10 @@
 import { Player } from '@/components/players/Players.ts';
-import { Score } from './Score.ts';
+import { ScoreState } from './ScoreState.ts';
 
 type Props = {
   playerOne: Player;
   playerTwo: Player;
-  score: Score;
+  score: ScoreState;
 };
 
 export default function ScoreView({

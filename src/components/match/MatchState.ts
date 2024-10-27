@@ -5,12 +5,12 @@ export enum MatchStatus {
   PLAYING = 'playing',
 }
 
-export type Match = {
+export type MatchState = {
   currentStartingPlayer: Player;
   status: MatchStatus;
 };
 
-export function getNewMatch(startingPlayer: Player): Match {
+export function getNewMatchState(startingPlayer: Player): MatchState {
   return {
     currentStartingPlayer: startingPlayer,
     status: MatchStatus.SETUP,
