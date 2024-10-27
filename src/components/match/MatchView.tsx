@@ -10,20 +10,16 @@ import { getNewScoreState } from '@/components/score/ScoreState.ts';
 import ScoreView from '@/components/score/ScoreView.tsx';
 import { getOpponentOf, Player } from '@/components/players/Players.ts';
 import PlayerSetup from '@/components/players/PlayersView.tsx';
-import { useState } from 'react';
 import { getNewMatchState, MatchStatus } from './MatchState.ts';
+import { usePlayers } from '../players/PlayersContext.tsx';
 
 export default function MatchView() {
-  const [playerOne, setPlayerOne] = useState('X');
-  const [playerTwo, setPlayerTwo] = useState('O');
-  const [match, updateMatch] = useImmer(getNewMatchState(playerOne));
+  const { players, updatePlayers } = usePlayers();
+  const [match, updateMatch] = useImmer(getNewMatchState(players.one));
   const [score, updateScore] = useImmer(getNewScoreState());
 
   const { currentStartingPlayer } = match;
-  const currentSecondPlayer = getOpponentOf(currentStartingPlayer, [
-    playerOne,
-    playerTwo,
-  ]);
+  const currentSecondPlayer = getOpponentOf(currentStartingPlayer, players);
 
   const handleGameOver = (statusOrWinner: GameStatusOrWinner) => {
     if (statusOrWinner === GameStatuses.TIE) {
@@ -32,7 +28,7 @@ export default function MatchView() {
       });
     } else {
       updateScore((draft) => {
-        if (statusOrWinner === playerOne) {
+        if (statusOrWinner === players.one) {
           draft.playerOneWins = 1;
         } else {
           draft.playerTwoWins = 1;
@@ -48,13 +44,13 @@ export default function MatchView() {
     playerOneValue: Player,
     playerTwoValue: Player
   ) => {
-    setPlayerOne(playerOneValue);
-    setPlayerTwo(playerTwoValue);
+    updatePlayers({ one: playerOneValue, two: playerTwoValue });
     updateMatch((draft) => {
       draft.status = MatchStatus.PLAYING;
       draft.currentStartingPlayer = playerOneValue;
     });
   };
+
   if (match.status === MatchStatus.SETUP) {
     return <PlayerSetup onPlayerSetupSubmit={handlePlayerSetupSubmit} />;
   }
@@ -69,7 +65,11 @@ export default function MatchView() {
         />
       </div>
       <div className="flex flex-col justify-center h-full">
-        <ScoreView playerOne={playerOne} playerTwo={playerTwo} score={score} />
+        <ScoreView
+          playerOne={players.one}
+          playerTwo={players.two}
+          score={score}
+        />
       </div>
     </div>
   );
