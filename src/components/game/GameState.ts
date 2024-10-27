@@ -104,7 +104,7 @@ export function gameReducer(draft: Game, action: GameActions) {
       break;
     }
     default: {
-      throw Error(`Unknown action: ${action.type}`);
+      throw Error(`Unknown action`);
     }
   }
 }
