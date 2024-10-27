@@ -1,6 +1,6 @@
 import { useImmer } from 'use-immer';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
-import { Player } from './PlayerLogic.ts';
+import { Player } from './Players.ts';
 
 type PlayersContextType = {
   players: { one: Player; two: Player };

@@ -1,5 +1,5 @@
-import { Player } from '@/code/player/PlayerLogic.ts';
-import { Score } from './MatchLogic.ts';
+import { Player } from '@/components/players/Players.ts';
+import { Score } from './Score.ts';
 
 type Props = {
   playerOne: Player;
@@ -7,10 +7,10 @@ type Props = {
   score: Score;
 };
 
-export default function MatchScore({
+export default function ScoreView({
+  score: { playerOneWins, playerTwoWins, ties },
   playerOne,
   playerTwo,
-  score: { playerOneWins, playerTwoWins, ties },
 }: Props) {
   return (
     <>

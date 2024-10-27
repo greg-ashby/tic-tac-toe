@@ -1,5 +1,5 @@
-import Main from '@/code/Main.tsx';
+import MatchView from '@/components/match/MatchView.tsx';
 
 export default function Home() {
-  return <Main />;
+  return <MatchView />;
 }

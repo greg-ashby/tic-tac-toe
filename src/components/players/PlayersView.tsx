@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { Player } from './PlayerLogic.ts';
+import { Player } from './Players.ts';
 
 type Props = {
   onPlayerSetupSubmit: (playerOneValue: Player, playerTwoValue: Player) => void;

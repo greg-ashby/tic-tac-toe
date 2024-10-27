@@ -1,4 +1,4 @@
-import { NullablePlayer, Player } from '@/code/player/PlayerLogic.ts';
+import { NullablePlayer, Player } from '@/components/players/Players.ts';
 
 type Board = NullablePlayer[];
 export enum GameStatuses {

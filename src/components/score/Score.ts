@@ -4,6 +4,6 @@ export type Score = {
   ties: number;
 };
 
-export function getNewMatchScore(): Score {
+export function getNewScore(): Score {
   return { playerOneWins: 0, playerTwoWins: 0, ties: 0 };
 }
