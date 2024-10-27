@@ -4,7 +4,7 @@ import { useImmer } from 'use-immer';
 import {
   GameStatuses,
   GameStatusOrWinner,
-} from '@/components/game/GameLogic.ts';
+} from '@/components/game/GameState.ts';
 import GameView from '@/components/game/GameView.tsx';
 import { getNewScoreState } from '@/components/score/ScoreState.ts';
 import ScoreView from '@/components/score/ScoreView.tsx';

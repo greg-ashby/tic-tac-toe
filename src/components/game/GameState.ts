@@ -73,3 +73,38 @@ export function makeMove(draft: Game, squareNumber: number) {
 
   draft.statusOrWinner = calculateOutcome(draft);
 }
+export enum GameActionNames {
+  SQUARE_CLICKED = 'squareClicked',
+  START_NEW_GAME = 'startNewGame',
+}
+type GameActions =
+  | {
+      type: GameActionNames.SQUARE_CLICKED;
+      squareNumber: number;
+      onGameOver: (outcome: GameStatusOrWinner) => void;
+    }
+  | {
+      type: GameActionNames.START_NEW_GAME;
+      firstPlayer: Player;
+      secondPlayer: Player;
+    };
+
+export function gameReducer(draft: Game, action: GameActions) {
+  switch (action.type) {
+    case GameActionNames.SQUARE_CLICKED: {
+      makeMove(draft, action.squareNumber);
+      if (draft.statusOrWinner !== GameStatuses.IN_PROGRESS) {
+        action.onGameOver(draft.statusOrWinner);
+      }
+      break;
+    }
+    case GameActionNames.START_NEW_GAME: {
+      const newGame = getNewGame(action.firstPlayer, action.secondPlayer);
+      Object.assign(draft, newGame);
+      break;
+    }
+    default: {
+      throw Error(`Unknown action: ${action.type}`);
+    }
+  }
+}

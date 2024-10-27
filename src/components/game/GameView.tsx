@@ -1,14 +1,13 @@
 import { Player } from '@/components/players/Players.ts';
 import { useImmerReducer } from 'use-immer';
 import {
-  Game,
-  GameStatuses,
   getNewGame,
-  makeMove,
   GameStatusOrWinner,
-} from '@/components/game/GameLogic.ts';
-import GameBoard from './GameBoard.tsx';
-import GameStatus from './GameStatus.tsx';
+  gameReducer,
+  GameActionNames,
+} from '@/components/game/GameState.ts';
+import GameBoard from './components/GameBoard.tsx';
+import GameStatus from './components/GameStatus.tsx';
 
 type Props = {
   firstPlayer: Player;
@@ -16,42 +15,6 @@ type Props = {
   onGameOver: (outcome: GameStatusOrWinner) => void;
 };
 
-enum GameActionNames {
-  SQUARE_CLICKED = 'squareClicked',
-  START_NEW_GAME = 'startNewGame',
-}
-
-type GameActions =
-  | {
-      type: GameActionNames.SQUARE_CLICKED;
-      squareNumber: number;
-      onGameOver: (outcome: GameStatusOrWinner) => void;
-    }
-  | {
-      type: 'startNewGame';
-      firstPlayer: Player;
-      secondPlayer: Player;
-    };
-
-function gameReducer(draft: Game, action: GameActions) {
-  switch (action.type) {
-    case GameActionNames.SQUARE_CLICKED: {
-      makeMove(draft, action.squareNumber);
-      if (draft.statusOrWinner !== GameStatuses.IN_PROGRESS) {
-        action.onGameOver(draft.statusOrWinner);
-      }
-      break;
-    }
-    case GameActionNames.START_NEW_GAME: {
-      const newGame = getNewGame(action.firstPlayer, action.secondPlayer);
-      Object.assign(draft, newGame);
-      break;
-    }
-    default: {
-      throw Error(`Unknown action: ${action.type}`);
-    }
-  }
-}
 export default function GameView({
   firstPlayer,
   secondPlayer,
