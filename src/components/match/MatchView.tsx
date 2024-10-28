@@ -1,21 +1,21 @@
 'use client';
 
 import { useImmer } from 'use-immer';
+import GameView from '@/components/game/GameView.tsx';
+import ScoreView from '@/components/score/ScoreView.tsx';
+import MatchSetupView from '@/components/match/MatchSetupView.tsx';
 import {
   GameStatuses,
   GameStatusOrWinner,
-} from '@/components/game/GameState.ts';
-import GameView from '@/components/game/GameView.tsx';
-import { getNewScoreState } from '@/components/score/ScoreState.ts';
-import ScoreView from '@/components/score/ScoreView.tsx';
-import { getOpponentOf, Player } from '@/components/players/Players.ts';
-import PlayerSetup from '@/components/players/PlayersView.tsx';
-import { getNewMatchState, MatchStatus } from './MatchState.ts';
-import { usePlayers } from '../players/PlayersContext.tsx';
+} from '@/components/game/GameUtils.ts';
+import { getNewScoreState } from '@/components/score/ScoreUtils.ts';
+import { getOpponentOf, Player } from '@/components/player/PlayerUtils.ts';
+import { usePlayers } from '@/components/player/PlayerContext.tsx';
+import { createMatchState, MatchStatus } from './MatchUtils.ts';
 
-export default function MatchView() {
+export function MatchView() {
   const { players, updatePlayers } = usePlayers();
-  const [match, updateMatch] = useImmer(getNewMatchState(players.one));
+  const [match, updateMatch] = useImmer(createMatchState(players.one));
   const [score, updateScore] = useImmer(getNewScoreState());
 
   const { currentStartingPlayer } = match;
@@ -51,11 +51,9 @@ export default function MatchView() {
     });
   };
 
-  if (match.status === MatchStatus.SETUP) {
-    return <PlayerSetup onPlayerSetupSubmit={handlePlayerSetupSubmit} />;
-  }
-
-  return (
+  return match.status === MatchStatus.SETUP ? (
+    <MatchSetupView onMatchSetupSubmit={handlePlayerSetupSubmit} />
+  ) : (
     <div className="flex flex-wrap justify-center gap-4">
       <div className="flex flex-col items-center">
         <GameView
@@ -65,11 +63,7 @@ export default function MatchView() {
         />
       </div>
       <div className="flex flex-col justify-center h-full">
-        <ScoreView
-          playerOne={players.one}
-          playerTwo={players.two}
-          score={score}
-        />
+        <ScoreView score={score} />
       </div>
     </div>
   );

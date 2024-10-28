@@ -1,29 +1,26 @@
-import { Player } from '@/components/players/Players.ts';
-import { ScoreState } from './ScoreState.ts';
+import { usePlayers } from '@/components/player/PlayerContext.tsx';
+import { ScoreState } from './ScoreUtils.ts';
 
 type Props = {
-  playerOne: Player;
-  playerTwo: Player;
   score: ScoreState;
 };
 
 export default function ScoreView({
   score: { playerOneWins, playerTwoWins, ties },
-  playerOne,
-  playerTwo,
 }: Props) {
+  const { players } = usePlayers();
   return (
     <>
       <h1 className="text-2xl text-center font-bold mt-7 mb-3">SCORE</h1>
       <div className="grid grid-cols-2">
         <div className="border border-black text-l font-bold text-right p-2">
-          {playerOne} wins
+          {players.one} wins
         </div>
         <div className="border border-black text-l font-bold text-left p-2">
           {playerOneWins}
         </div>
         <div className="border border-black text-l font-bold text-right p-2">
-          {playerTwo} wins
+          {players.two} wins
         </div>
         <div className="border border-black text-l font-bold text-left p-2">
           {playerTwoWins}

@@ -1,11 +1,11 @@
 import { ChangeEvent, useState } from 'react';
-import { Player } from './Players.ts';
+import { Player } from '@/components/player/PlayerUtils.ts';
 
 type Props = {
-  onPlayerSetupSubmit: (playerOneValue: Player, playerTwoValue: Player) => void;
+  onMatchSetupSubmit: (playerOneValue: Player, playerTwoValue: Player) => void;
 };
-export default function PlayerSetup({
-  onPlayerSetupSubmit: onPlayerSetupSumbit,
+export default function MatchSetupView({
+  onMatchSetupSubmit: onPlayerSetupSumbit,
 }: Props) {
   const [playerOneValue, setPlayerOneValue] = useState('X');
   const [playerTwoValue, setPlayerTwoValue] = useState('O');

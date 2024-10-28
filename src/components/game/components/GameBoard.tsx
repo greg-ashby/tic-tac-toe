@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 // in this case, we can use the index as the key because the board is always a 3x3 array and the squares never change
-import { Game, GameStatuses } from '../GameState.ts';
+import { Game, GameStatuses } from '../GameUtils.ts';
 import GameSquare from './GameSquare.tsx';
 
 type Props = {

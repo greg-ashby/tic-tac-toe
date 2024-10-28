@@ -1,13 +1,9 @@
-import { Player } from '@/components/players/Players.ts';
+import { Player } from '@/components/player/PlayerUtils.ts';
 import { useImmerReducer } from 'use-immer';
-import {
-  getNewGame,
-  GameStatusOrWinner,
-  gameReducer,
-  GameActionNames,
-} from '@/components/game/GameState.ts';
+import { gameReducer, GameActionNames } from './GameReducer.ts';
 import GameBoard from './components/GameBoard.tsx';
 import GameStatus from './components/GameStatus.tsx';
+import { GameStatusOrWinner, getNewGame } from './GameUtils.ts';
 
 type Props = {
   firstPlayer: Player;
@@ -36,8 +32,10 @@ export default function GameView({
   const handleSquareClick = (squareNumber: number) => {
     dispatch({
       type: GameActionNames.SQUARE_CLICKED,
-      squareNumber,
-      onGameOver,
+      payload: {
+        squareNumber,
+        onGameOver,
+      },
     });
   };
 

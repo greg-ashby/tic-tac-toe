@@ -1,4 +1,4 @@
-import { Game, GameStatuses } from '../GameState.ts';
+import { Game, GameStatuses } from '../GameUtils.ts';
 import NewGameButton from './NewGameButton.tsx';
 
 type Props = {
