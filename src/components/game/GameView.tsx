@@ -1,21 +1,19 @@
-import { Player } from '@/components/player/PlayerUtils.ts';
+import { getOpponentOf, Player } from '@/components/player/PlayerUtils.ts';
 import { useImmerReducer } from 'use-immer';
 import { gameReducer, GameActionNames } from './GameReducer.ts';
 import GameBoard from './components/GameBoard.tsx';
 import GameStatus from './components/GameStatus.tsx';
 import { GameStatusOrWinner, getNewGame } from './GameUtils.ts';
+import { usePlayers } from '../player/PlayerContext.tsx';
 
 type Props = {
   firstPlayer: Player;
-  secondPlayer: Player;
   onGameOver: (outcome: GameStatusOrWinner) => void;
 };
 
-export default function GameView({
-  firstPlayer,
-  secondPlayer,
-  onGameOver,
-}: Props) {
+export default function GameView({ firstPlayer, onGameOver }: Props) {
+  const { players } = usePlayers();
+  const secondPlayer = getOpponentOf(firstPlayer, players);
   const [game, dispatch] = useImmerReducer(
     gameReducer,
     getNewGame(firstPlayer, secondPlayer)
