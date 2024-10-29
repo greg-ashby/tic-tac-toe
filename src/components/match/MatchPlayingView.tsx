@@ -1,7 +1,7 @@
 import { useImmer } from 'use-immer';
 import {
   getNewScoreState,
-  calculateNewScore,
+  calculateNewScoreState,
 } from '@/components/score/ScoreUtils.ts';
 import GameView from '@/components/game/GameView.tsx';
 import { usePlayers } from '@/components/player/PlayerContext.tsx';
@@ -21,8 +21,12 @@ export function MatchPlayingView({ onEndMatch }: Props) {
   );
 
   const handleGameOver = (outcome: GameOutcome) => {
-    updateScore(calculateNewScore(score, players, outcome));
+    updateScore(calculateNewScoreState(score, players, outcome));
     updateCurrentStartingPlayer(getOpponentOf(currentStartingPlayer, players));
+  };
+
+  const handleEndMatchClick = () => {
+    onEndMatch();
   };
 
   return (
@@ -35,7 +39,7 @@ export function MatchPlayingView({ onEndMatch }: Props) {
       </div>
       <div className="flex flex-col justify-center h-full space-y-4">
         <ScoreView score={score} />
-        <EndMatchButton onEndMatchClick={onEndMatch} />
+        <EndMatchButton onEndMatchClick={handleEndMatchClick} />
       </div>
     </div>
   );

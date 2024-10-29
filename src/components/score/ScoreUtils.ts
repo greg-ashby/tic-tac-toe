@@ -11,7 +11,7 @@ export function getNewScoreState(): ScoreState {
   return { playerOneWins: 0, playerTwoWins: 0, ties: 0 };
 }
 
-export function calculateNewScore(
+export function calculateNewScoreState(
   score: ScoreState,
   players: Players,
   outcome: GameOutcome
