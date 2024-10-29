@@ -11,7 +11,7 @@ export default function ScoreView({
   const { players } = usePlayers();
   return (
     <>
-      <h1 className="text-2xl text-center font-bold mt-7 mb-3">SCORE</h1>
+      <h1 className="text-2xl text-center font-bold mt-6">SCORE</h1>
       <div className="grid grid-cols-2">
         <div className="border border-black text-l font-bold text-right p-2">
           {players.one} wins

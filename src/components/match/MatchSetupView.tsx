@@ -1,14 +1,13 @@
 import { ChangeEvent, useState } from 'react';
-import { Player } from '@/components/player/PlayerUtils.ts';
+import { usePlayers } from '@/components/player/PlayerContext.tsx';
 
 type Props = {
-  onMatchSetupSubmit: (playerOneValue: Player, playerTwoValue: Player) => void;
+  onStartMatch: () => void;
 };
-export default function MatchSetupView({
-  onMatchSetupSubmit: onPlayerSetupSumbit,
-}: Props) {
-  const [playerOneValue, setPlayerOneValue] = useState('X');
-  const [playerTwoValue, setPlayerTwoValue] = useState('O');
+export default function MatchSetupView({ onStartMatch }: Props) {
+  const { players, updatePlayers } = usePlayers();
+  const [playerOneValue, setPlayerOneValue] = useState(players.one);
+  const [playerTwoValue, setPlayerTwoValue] = useState(players.two);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === 'playerOne') {
@@ -16,6 +15,16 @@ export default function MatchSetupView({
     } else if (event.target.name === 'playerTwo') {
       setPlayerTwoValue(event.target.value);
     }
+  };
+
+  const handleStartMatchClick = () => {
+    // TODO error checking for player values and only start once ready
+    const newPlayers = {
+      one: playerOneValue,
+      two: playerTwoValue,
+    };
+    updatePlayers(newPlayers);
+    onStartMatch();
   };
 
   return (
@@ -55,9 +64,7 @@ export default function MatchSetupView({
         <button
           type="button"
           className="text-2xl font-bold bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200"
-          onClick={() => {
-            onPlayerSetupSumbit(playerOneValue, playerTwoValue);
-          }}
+          onClick={handleStartMatchClick}
         >
           Start
         </button>

@@ -1,18 +1,14 @@
 import { NullablePlayer, Player } from '@/components/player/PlayerUtils.ts';
 
-export enum GameStatuses {
-  IN_PROGRESS = 'In-Progress',
-  TIE = 'Tie',
-}
-export type GameStatusOrWinner = GameStatuses | Player;
-
 export type Board = NullablePlayer[];
+export const TIE_GAME = 'Tie Game';
+export type GameOutcome = Player | typeof TIE_GAME | undefined;
 
 export type Game = {
   board: NullablePlayer[];
   currentPlayer: Player;
   nextPlayer: Player;
-  statusOrWinner: GameStatuses | Player;
+  outcome: GameOutcome;
 };
 
 export function getNewGame(startingPlayer: Player, opponent: Player): Game {
@@ -20,7 +16,7 @@ export function getNewGame(startingPlayer: Player, opponent: Player): Game {
     board: Array(9).fill(null),
     currentPlayer: startingPlayer,
     nextPlayer: opponent,
-    statusOrWinner: GameStatuses.IN_PROGRESS,
+    outcome: undefined,
   };
 }
 
@@ -50,13 +46,13 @@ function isBoardFull(board: Board): boolean {
   return board.every((square) => square !== null);
 }
 
-export function calculateOutcome({ board }: Game): GameStatusOrWinner {
+export function calculateOutcome({ board }: Game): GameOutcome {
   const winner = getWinner(board);
   if (winner) {
     return winner;
   }
   if (isBoardFull(board)) {
-    return GameStatuses.TIE;
+    return TIE_GAME;
   }
-  return GameStatuses.IN_PROGRESS;
+  return undefined;
 }

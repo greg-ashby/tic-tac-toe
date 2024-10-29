@@ -1,14 +1,14 @@
 import { getOpponentOf, Player } from '@/components/player/PlayerUtils.ts';
 import { useImmerReducer } from 'use-immer';
+import { usePlayers } from '@/components/player/PlayerContext.tsx';
 import { gameReducer, GameActionNames } from './GameReducer.ts';
 import GameBoard from './components/GameBoard.tsx';
 import GameStatus from './components/GameStatus.tsx';
-import { GameStatusOrWinner, getNewGame } from './GameUtils.ts';
-import { usePlayers } from '../player/PlayerContext.tsx';
+import { GameOutcome, getNewGame } from './GameUtils.ts';
 
 type Props = {
   firstPlayer: Player;
-  onGameOver: (outcome: GameStatusOrWinner) => void;
+  onGameOver: (outcome: GameOutcome) => void;
 };
 
 export default function GameView({ firstPlayer, onGameOver }: Props) {

@@ -2,8 +2,7 @@ import { Player } from '@/components/player/PlayerUtils.ts';
 import {
   calculateOutcome,
   Game,
-  GameStatuses,
-  GameStatusOrWinner,
+  GameOutcome,
   getNewGame,
 } from './GameUtils.ts';
 
@@ -16,7 +15,7 @@ type GameActions =
       type: GameActionNames.SQUARE_CLICKED;
       payload: {
         squareNumber: number;
-        onGameOver: (outcome: GameStatusOrWinner) => void;
+        onGameOver: (outcome: GameOutcome) => void;
       };
     }
   | {
@@ -40,9 +39,9 @@ export function gameReducer(draft: Game, action: GameActions) {
         draft.currentPlayer,
       ];
 
-      draft.statusOrWinner = calculateOutcome(draft);
-      if (draft.statusOrWinner !== GameStatuses.IN_PROGRESS) {
-        onGameOver(draft.statusOrWinner);
+      draft.outcome = calculateOutcome(draft);
+      if (draft.outcome) {
+        onGameOver(draft.outcome);
       }
       break;
     }

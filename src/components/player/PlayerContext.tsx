@@ -20,8 +20,8 @@ export const usePlayers = () => {
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [players, updatePlayers] = useImmer({
-    one: 'X' as Player,
-    two: 'O' as Player,
+    one: 'X',
+    two: 'O',
   });
   const playerContextValue = useMemo(
     () => ({ players, updatePlayers }),

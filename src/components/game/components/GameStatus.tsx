@@ -1,4 +1,4 @@
-import { Game, GameStatuses } from '../GameUtils.ts';
+import { Game, TIE_GAME } from '@/components/game/GameUtils.ts';
 import NewGameButton from './NewGameButton.tsx';
 
 type Props = {
@@ -9,12 +9,9 @@ type Props = {
 export default function GameStatus({ game, onNewGameClick }: Props) {
   let text = `${game.currentPlayer}'s Turn`;
   let showButton = false;
-  if (game.statusOrWinner !== GameStatuses.IN_PROGRESS) {
+  if (game.outcome) {
     showButton = true;
-    text =
-      game.statusOrWinner !== GameStatuses.TIE
-        ? `${game.statusOrWinner} wins!`
-        : 'Tie Game';
+    text = game.outcome !== TIE_GAME ? `${game.outcome} wins!` : 'Tie Game';
   }
 
   return (
