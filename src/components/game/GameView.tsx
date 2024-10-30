@@ -22,8 +22,10 @@ export default function GameView({ firstPlayer, onGameOver }: Props) {
   const handleNewGameClick = () => {
     dispatch({
       type: GameActionNames.START_NEW_GAME,
-      firstPlayer,
-      secondPlayer,
+      payload: {
+        firstPlayer,
+        secondPlayer,
+      },
     });
   };
 

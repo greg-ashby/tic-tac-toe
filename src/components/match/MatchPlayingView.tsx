@@ -25,10 +25,6 @@ export function MatchPlayingView({ onEndMatch }: Props) {
     updateCurrentStartingPlayer(getOpponentOf(currentStartingPlayer, players));
   };
 
-  const handleEndMatchClick = () => {
-    onEndMatch();
-  };
-
   return (
     <div className="flex flex-wrap justify-center gap-4">
       <div className="flex flex-col items-center">
@@ -39,7 +35,7 @@ export function MatchPlayingView({ onEndMatch }: Props) {
       </div>
       <div className="flex flex-col justify-center h-full space-y-4">
         <ScoreView score={score} />
-        <EndMatchButton onEndMatchClick={handleEndMatchClick} />
+        <EndMatchButton onEndMatchClick={onEndMatch} />
       </div>
     </div>
   );

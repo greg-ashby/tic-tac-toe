@@ -23,6 +23,7 @@ export default function MatchSetupView({ onStartMatch }: Props) {
       one: playerOneValue,
       two: playerTwoValue,
     };
+
     updatePlayers(newPlayers);
     onStartMatch();
   };

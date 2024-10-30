@@ -20,8 +20,10 @@ type GameActions =
     }
   | {
       type: GameActionNames.START_NEW_GAME;
-      firstPlayer: Player;
-      secondPlayer: Player;
+      payload: {
+        firstPlayer: Player;
+        secondPlayer: Player;
+      };
     };
 
 export function gameReducer(draft: Game, action: GameActions) {
@@ -46,7 +48,9 @@ export function gameReducer(draft: Game, action: GameActions) {
       break;
     }
     case GameActionNames.START_NEW_GAME: {
-      const newGame = getNewGame(action.firstPlayer, action.secondPlayer);
+      const { firstPlayer, secondPlayer } = action.payload;
+
+      const newGame = getNewGame(firstPlayer, secondPlayer);
       Object.assign(draft, newGame);
       break;
     }
