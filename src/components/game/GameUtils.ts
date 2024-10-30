@@ -19,8 +19,7 @@ export function getNewGame(startingPlayer: Player, opponent: Player): Game {
     outcome: undefined,
   };
 }
-
-export function getWinner(board: Board): NullablePlayer {
+function getWinner(board: Board): NullablePlayer {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
