@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EndMatchButton renders correctly 1`] = `
+<DocumentFragment>
+  <button
+    class="text-l font-bold bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition duration-200"
+    type="button"
+  >
+    End Match
+  </button>
+</DocumentFragment>
+`;
