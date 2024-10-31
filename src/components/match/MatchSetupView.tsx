@@ -18,7 +18,7 @@ export default function MatchSetupView({ onStartMatch }: Props) {
   };
 
   const handleStartMatchClick = () => {
-    // TODO error checking for player values and only start once ready
+    // @TODO error checking for player values and only start once ready
     const newPlayers = {
       one: playerOneValue,
       two: playerTwoValue,

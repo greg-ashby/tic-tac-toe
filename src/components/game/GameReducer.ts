@@ -4,6 +4,7 @@ import {
   Game,
   GameOutcome,
   getNewGame,
+  makeMove,
 } from './GameUtils.ts';
 
 export enum GameActionNames {
@@ -31,15 +32,7 @@ export function gameReducer(draft: Game, action: GameActions) {
     case GameActionNames.SQUARE_CLICKED: {
       const { squareNumber, onGameOver } = action.payload;
 
-      if (draft.board[squareNumber] !== null) {
-        throw new Error('Square already taken');
-      }
-      draft.board[squareNumber] = draft.currentPlayer;
-
-      [draft.currentPlayer, draft.nextPlayer] = [
-        draft.nextPlayer,
-        draft.currentPlayer,
-      ];
+      makeMove(draft, squareNumber);
 
       draft.outcome = calculateOutcome(draft);
       if (draft.outcome) {

@@ -19,6 +19,18 @@ export function getNewGame(startingPlayer: Player, opponent: Player): Game {
     outcome: undefined,
   };
 }
+
+export function makeMove(draft: Game, squareNumber: number) {
+  if (draft.board[squareNumber] !== null) {
+    throw new Error('Square already taken');
+  }
+  draft.board[squareNumber] = draft.currentPlayer;
+
+  [draft.currentPlayer, draft.nextPlayer] = [
+    draft.nextPlayer,
+    draft.currentPlayer,
+  ];
+}
 function getWinner(board: Board): NullablePlayer {
   const lines = [
     [0, 1, 2],
