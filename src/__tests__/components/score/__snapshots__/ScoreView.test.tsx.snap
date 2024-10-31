@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScoreView renders correctly with the given score values 1`] = `
+<DocumentFragment>
+  <h1
+    class="text-2xl text-center font-bold mt-6"
+  >
+    SCORE
+  </h1>
+  <div
+    class="grid grid-cols-2"
+  >
+    <div
+      class="border border-black text-l font-bold text-right p-2"
+    >
+      Player One wins
+    </div>
+    <div
+      class="border border-black text-l font-bold text-left p-2"
+    >
+      5
+    </div>
+    <div
+      class="border border-black text-l font-bold text-right p-2"
+    >
+      Player Two wins
+    </div>
+    <div
+      class="border border-black text-l font-bold text-left p-2"
+    >
+      1
+    </div>
+    <div
+      class="border border-black text-l font-bold text-right p-2"
+    >
+      Ties
+    </div>
+    <div
+      class="border border-black text-l font-bold text-left p-2"
+    >
+      4
+    </div>
+  </div>
+</DocumentFragment>
+`;
