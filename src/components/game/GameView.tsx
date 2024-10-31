@@ -2,8 +2,8 @@ import { getOpponentOf, Player } from '@/components/player/PlayerUtils.ts';
 import { useImmerReducer } from 'use-immer';
 import { usePlayers } from '@/components/player/PlayerContext.tsx';
 import { gameReducer, GameActionNames } from './GameReducer.ts';
-import GameBoard from './components/GameBoard.tsx';
-import GameStatus from './components/GameStatus.tsx';
+import GameBoard from './GameBoard.tsx';
+import GameStatus from './GameStatus.tsx';
 import { GameOutcome, getNewGame } from './GameUtils.ts';
 
 type Props = {
