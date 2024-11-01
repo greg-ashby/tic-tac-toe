@@ -1,4 +1,4 @@
-export type Player = string; // @TODO make player a name and avatar value
+export type Player = string;
 export type NullablePlayer = Player | null;
 export type Players = {
   one: Player;

@@ -8,6 +8,7 @@ export default function MatchSetupView({ onStartMatch }: Props) {
   const { players, updatePlayers } = usePlayers();
   const [playerOneValue, setPlayerOneValue] = useState(players.one);
   const [playerTwoValue, setPlayerTwoValue] = useState(players.two);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === 'playerOne') {
@@ -18,11 +19,15 @@ export default function MatchSetupView({ onStartMatch }: Props) {
   };
 
   const handleStartMatchClick = () => {
-    // @TODO error checking for player values and only start once ready
     const newPlayers = {
       one: playerOneValue,
       two: playerTwoValue,
     };
+
+    if (playerOneValue === playerTwoValue) {
+      setError('Player symbols must be different');
+      return;
+    }
 
     updatePlayers(newPlayers);
     onStartMatch();
@@ -60,6 +65,9 @@ export default function MatchSetupView({ onStartMatch }: Props) {
             onChange={handleInputChange}
           />
         </div>
+      </div>
+      <div className="text-l text-center font-bold mt-7 mb-3 text-red-500">
+        {error}
       </div>
       <div className="text-2xl text-center font-bold mt-7 mb-3">
         <button
